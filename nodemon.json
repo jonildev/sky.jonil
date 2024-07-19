@@ -1,0 +1,6 @@
+{
+  "ignore": [".git", "node_modules", "public", "cache"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
