@@ -1,0 +1,69 @@
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta property="og:site_name" content="SkyCrypt">
+  <link rel="sitemap" href="/sitemap.xml">
+  <%
+    let canonicalUrl = "https://sky.shiiyu.moe/"
+    if (page === "index") {
+      // leave canonicalUrl unchanged
+    } else if (page === "api") {
+      canonicalUrl += "api"
+    } else if (page === "stats") {
+      canonicalUrl += `stats/${calculated.uuid}/${calculated.profile.profile_id}`
+    } else {
+      throw new Error(`Unknown page: "${page}"`)
+    }
+  %>
+  <link rel="canonical" href="<%= canonicalUrl %>" />
+  <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+  <link rel="search" type="application/opensearchdescription+xml" title="SkyCrypt" href="/search.osd">
+  <meta name="theme-color" content="#282828">
+  <meta name="apple-mobile-web-app-title" content="SkyCrypt">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" sizes="180x180" href="/resources/img/app-icons/square-180.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/resources/img/app-icons/square-512.png">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhone12ProMax.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhone12.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhoneXsMax.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhoneXr.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhoneX.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhone8Plus.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
+  <link rel="apple-touch-startup-image" href="/resources/img/ios-launch-screen/iPhone8.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link rel="stylesheet" href="/resources/css/shared.css?<%- fileHashes.css['shared.css'] %> ">
+  <link rel="stylesheet" href="/resources/css/<%- page + ".css?" + fileHashes.css[page + ".css"] %> ">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-185827357-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-185827357-1');
+  </script>
+
+  <% if (page === "stats") { %>
+    <link rel="preload" href="/resources/css/inventory.css?<%- fileHashes.css['inventory.css'] %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <script async type="module" src="/resources/js/<%- fileNameMap['local-time'] %>"></script>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['stats-defer'] %>"></script>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['rich-item'] %>"></script>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['skill-component'] %>"></script>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['player-stat'] %>"></script>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['bonus-stats'] %>"></script>
+    <link rel="preload" href="/resources/js/<%- fileNameMap['inventory-view'] %>" as="script">
+  <% } %>
+
+  <% if (page === "stats" && process.env.NODE_ENV === "development") { %>
+    <script defer type="module" src="/resources/js/<%- fileNameMap['development-defer'] %>"></script>
+  <% } %>
+
+  <script defer type="module" src="/resources/js/<%- fileNameMap['common-defer'] %>"></script>
+
+  <script> const page = "<%- page %>"; </script>
+  <script> const extra = JSON.parse(`<%- JSON.stringify(extra).replaceAll('\\', '\\\\') %>`); </script>
+
+  <script src="/resources/js/<%- fileNameMap['common'] %>"></script>
+
+  <script async defer type="module" src="/resources/js/<%- fileNameMap['browser-compat-check'] %>"></script>
